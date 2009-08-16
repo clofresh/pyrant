@@ -107,6 +107,12 @@ class Tyrant(dict):
         except TyrantError:
             raise KeyError(key)
 
+    def get(self, key, default=None):
+        if key in self:
+            return self.__getitem__(key)
+        else:
+            return default
+
     def __len__(self):
         return self.proto.rnum()
 
