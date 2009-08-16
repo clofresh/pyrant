@@ -108,6 +108,17 @@ class Tyrant(dict):
             raise KeyError(key)
 
     def get(self, key, default=None):
+        """Allow for getting with a default.
+          
+           >>> t = Tyrant()
+           >>> t['foo'] = {'a': 'z', 'b': 'y'}
+           >>> print t.get('foo', {})
+           {u'a': u'z', u'b': u'y'}
+           >>> print t.get('bar', {})
+           {}
+
+        """
+
         if key in self:
             return self.__getitem__(key)
         else:
