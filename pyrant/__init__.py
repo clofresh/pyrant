@@ -118,10 +118,9 @@ class Tyrant(dict):
            {}
 
         """
-
-        if key in self:
-            return self.__getitem__(key)
-        else:
+        try:
+            return self[key]
+        except KeyError:
             return default
 
     def __len__(self):
@@ -262,7 +261,7 @@ class Tyrant(dict):
         self.proto.sync()
 
     def _get_query(self):
-        return Query(self.proto, self.dbtype)
+        return Query(self.proto, self.dbtype, self.literal)
 
     query = property(_get_query)
 
@@ -340,13 +339,14 @@ class Query(object):
 
     """
 
-    def __init__(self, proto, dbtype):
+    def __init__(self, proto, dbtype, literal=False):
         self._conditions = []
         self._order = None
         self._order_t = 0
         self._cache = {}
         self._proto = proto
         self._dbtype = dbtype
+        self.literal = literal
 
     def order(self, name):
         """Define result order. name parameter is the column name. 
